@@ -7,6 +7,7 @@ export default function App() {
     lastName: "",
     email: "",
   });
+  const [submitted, setSubmitted] = useState(false);
 
   const handleFirstNameInputChange = (event) => {
     event.persist();
@@ -16,11 +17,33 @@ export default function App() {
     }));
   };
 
+const handleLastNameInputChange = (event) => {
+	event.persist();
+	setValues((values) => ({
+		...values,
+		lastName: event.target.value,
+	}));
+};
+
+const handleEmailInputChange = (event) => {
+	event.persist();
+	setValues((values) => ({
+		...values,
+		email: event.target.value,
+	}));
+};
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
+
   return (
     <div class="form-container">
-      <form class="register-form">
-        {/* Uncomment the next line to show the success message */}
-        {/* <div class="success-message">Success! Thank you for registering</div> */}
+      <form class="register-form" onSubmit={handleSubmit}>
+        {showSuccess && values.firstName && values.lastName && values.email && (
+          <div class="success-message">Success! Thank you for registering</div>
+        )}
         <input
           id="first-name"
           class="form-field"
@@ -30,8 +53,9 @@ export default function App() {
           value={values.firstName}
           onChange={handleFirstNameInputChange}
         />
-        {/* Uncomment the next line to show the error message */}
-        {/* <span id="first-name-error">Please enter a first name</span> */}
+        {submitted && !values.firstName && (
+          <span id="first-name-error">Please enter a first name</span>
+        )}
         <input
           id="last-name"
           class="form-field"
@@ -39,10 +63,11 @@ export default function App() {
           placeholder="Last Name"
           name="lastName"
           value={values.lastName}
-          onChange={handleFirstNameInputChange}
+          onChange={handleLastNameInputChange}
         />
-        {/* Uncomment the next line to show the error message */}
-        {/* <span id="last-name-error">Please enter a last name</span> */}
+        {submitted && !values.lastName && (
+          <span id="last-name-error">Please enter a last name</span>
+        )}
         <input
           id="email"
           class="form-field"
@@ -50,10 +75,11 @@ export default function App() {
           placeholder="Email"
           name="email"
           value={values.email}
-          onChange={handleFirstNameInputChange}
+          onChange={handleEmailInputChange}
         />
-        {/* Uncomment the next line to show the error message */}
-        {/* <span id="email-error">Please enter an email address</span> */}
+        {submitted && !values.email && (
+          <span id="last-name-error">Please enter an email</span>
+        )}
         <button class="form-field" type="submit">
           Register
         </button>
