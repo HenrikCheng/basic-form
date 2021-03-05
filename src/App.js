@@ -8,6 +8,7 @@ export default function App() {
     email: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [valid, setValid] = useState(false);
 
   const handleFirstNameInputChange = (event) => {
     event.persist();
@@ -17,31 +18,34 @@ export default function App() {
     }));
   };
 
-const handleLastNameInputChange = (event) => {
-	event.persist();
-	setValues((values) => ({
-		...values,
-		lastName: event.target.value,
-	}));
-};
+  const handleLastNameInputChange = (event) => {
+    event.persist();
+    setValues((values) => ({
+      ...values,
+      lastName: event.target.value,
+    }));
+  };
 
-const handleEmailInputChange = (event) => {
-	event.persist();
-	setValues((values) => ({
-		...values,
-		email: event.target.value,
-	}));
-};
+  const handleEmailInputChange = (event) => {
+    event.persist();
+    setValues((values) => ({
+      ...values,
+      email: event.target.value,
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitted(true);
+    if (values.firstName && values.lastName && values.email) {
+      setValid(true);
+    }
   };
 
   return (
     <div class="form-container">
       <form class="register-form" onSubmit={handleSubmit}>
-        {showSuccess && values.firstName && values.lastName && values.email && (
+        {valid && (
           <div class="success-message">Success! Thank you for registering</div>
         )}
         <input
